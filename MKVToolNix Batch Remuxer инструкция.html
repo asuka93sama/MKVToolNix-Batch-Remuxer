@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Инструкция — MKVToolNix Batch Remuxer</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    background: #eef2f7;
+    padding: 20px 15px;
+    color: #253247;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 22px;
+    color: #243b5a;
+    margin-bottom: 5px;
+}
+
+.version {
+    color: #8895a7;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 16px;
+    color: #243b5a;
+    margin: 18px 0 8px 0;
+    padding-bottom: 4px;
+    border-bottom: 2px solid #3978e8;
+}
+
+h3 {
+    font-size: 14px;
+    color: #45556d;
+    margin: 12px 0 6px 0;
+}
+
+p, li {
+    font-size: 13px;
+    color: #40516a;
+    margin-bottom: 6px;
+}
+
+ul, ol {
+    margin: 6px 0 10px 22px;
+}
+
+li { margin-bottom: 4px; }
+
+code {
+    background: #f4f6f8;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: Consolas, monospace;
+    font-size: 12px;
+    color: #c0392b;
+}
+
+.code-block {
+    background: #f4f6f8;
+    border: 1px solid #dce3ed;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-family: Consolas, monospace;
+    font-size: 12px;
+    margin: 8px 0;
+    overflow-x: auto;
+}
+
+.note {
+    background: #fff8e1;
+    border-left: 4px solid #ffb300;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin: 10px 0;
+    font-size: 13px;
+    color: #7a5c00;
+}
+
+.success {
+    background: #eaf7ef;
+    border-left: 4px solid #279b63;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin: 10px 0;
+    font-size: 13px;
+    color: #1a6b45;
+}
+
+.error {
+    background: #fff0f0;
+    border-left: 4px solid #d63031;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin: 10px 0;
+    font-size: 13px;
+    color: #8b1e1e;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 13px;
+}
+
+th, td {
+    padding: 7px 10px;
+    border: 1px solid #dce3ed;
+    text-align: left;
+}
+
+th {
+    background: #f4f6f8;
+    font-weight: 600;
+    color: #243b5a;
+}
+
+/* Спойлер */
+details {
+    background: #f8f9fa;
+    border: 1px solid #e1e8f1;
+    border-radius: 8px;
+    margin: 10px 0;
+    padding: 0;
+}
+
+details summary {
+    padding: 10px 14px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    color: #3978e8;
+    list-style: none;
+    user-select: none;
+}
+
+details summary::-webkit-details-marker { display: none; }
+
+details summary::before {
+    content: "▶ ";
+    font-size: 10px;
+    margin-right: 6px;
+    transition: transform 0.2s;
+    display: inline-block;
+}
+
+details[open] summary::before {
+    transform: rotate(90deg);
+}
+
+details[open] summary {
+    border-bottom: 1px solid #e1e8f1;
+}
+
+details .spoiler-content {
+    padding: 12px 14px;
+    font-size: 13px;
+    color: #40516a;
+}
+
+.step {
+    display: flex;
+    gap: 12px;
+    margin: 10px 0;
+    align-items: flex-start;
+}
+
+.step-num {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    background: #3978e8;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.step-text {
+    flex: 1;
+    font-size: 13px;
+    padding-top: 4px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>📦 MKVToolNix Batch Remuxer</h1>
+    <div class="version">Инструкция по использованию</div>
+
+    <h2>Что делает программа</h2>
+    <p>Берёт видео из одной папки, аудио из другой, субтитры и шрифты — собирает готовые MKV в папку вывода. Файлы ищутся <strong>по одинаковому имени</strong> (до скобок).</p>
+
+    <h2>Быстрый старт</h2>
+
+    <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Создайте папки: <code>video</code>, <code>audio</code>, <code>subs</code>, <code>output</code> (шрифты и полные субтитры — опционально).</div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Разложите файлы. Имена должны совпадать:
+            <div class="code-block">
+video:  Killing Bites 01 (BDRip 1920x1080 x264 FLAC).mkv<br>
+audio:  Killing Bites 01 (BDRip 1920x1080 x264 FLAC).mka<br>
+subs:   Killing Bites 01 (BDRip 1920x1080 x264 FLAC).ass
+            </div>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Запустите <code>MKVToolNix Batch Remuxer v1.x.xx</code>, заполните поля кнопками «Обзор».</div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">Нажмите <strong>«Проверить файлы»</strong> — убедитесь, что группы найдены.</div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-text">Нажмите <strong>«Создать CMD»</strong> → в папке вывода появится <code>remux.cmd</code>.</div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-text">Запустите <code>remux.cmd</code> двойным кликом. Готово! 🎉</div>
+    </div>
+
+    <h2>Обязательные поля</h2>
+    <table>
+        <tr><th>Поле</th><th>Что указывать</th></tr>
+        <tr><td>Папка с видео *</td><td>mkv, mp4, avi, mov, ts, m2ts</td></tr>
+        <tr><td>Папка с аудио *</td><td>m4a, mp3, flac, wav, ac3, dts, aac, ogg, mka</td></tr>
+        <tr><td>Папка вывода *</td><td>Куда сохранять результат (создастся автоматически, если нет)</td></tr>
+        <tr><td>Путь к mkvmerge *</td><td>Обычно <code>C:\Program Files\MKVToolNix\mkvmerge.exe</code></td></tr>
+    </table>
+    <p><em>* — обязательные поля</em></p>
+
+    <h2>Необязательные поля</h2>
+    <table>
+        <tr><th>Поле</th><th>Что указывать</th></tr>
+        <tr><td>Субтитры (надписи)</td><td>Короткие субтитры (асс). Имя дорожки: «Надписи»</td></tr>
+        <tr><td>Субтитры (полные)</td><td>Полные русские субтитры. Имя дорожки — из поля ниже (по умолчанию «Rus»)</td></tr>
+        <tr><td>Шрифты</td><td>ttf, otf, woff, woff2 — добавляются ко всем файлам</td></tr>
+    </table>
+
+    <h2>Галочка «Оставить аудио из видео»</h2>
+    <p><strong>Снята (по умолчанию):</strong> из видео удаляются все аудио и субтитры, добавляются только внешние.</p>
+    <p><strong>Поставлена:</strong> оригинальное аудио остаётся, но без флага «по умолчанию». Внешнее аудио становится основным.</p>
+
+    <details>
+        <summary>Когда использовать галочку?</summary>
+        <div class="spoiler-content">
+            <p>Если хотите сохранить японскую/английскую дорожку как запасной вариант. Плеер автоматически включит русскую (внешнюю), но оригинал останется в файле.</p>
+        </div>
+    </details>
+
+    <h2>Суффиксы в именах аудио</h2>
+    <p>Если аудио имеет более длинное имя, чем видео, суффикс автоматически станет именем дорожки:</p>
+    <div class="code-block">
+video: [ReinForce] Kaifuku Jutsushi 01 (BDRip 1920x1080).mkv<br>
+audio: [ReinForce] Kaifuku Jutsushi 01 (BDRip 1920x1080).<strong>[Beloved]</strong>.mka<br>
+→ имя дорожки: <strong>Rus [Beloved]</strong>
+    </div>
+
+    <details>
+        <summary>Как работает группировка</summary>
+        <div class="spoiler-content">
+            <p>Ключ совпадения — часть имени <strong>до первой скобки</strong> <code>(</code>. Всё, что после ключа в имени аудио, становится суффиксом и добавляется к имени дорожки.</p>
+            <p>Пример: ключ <code>[ReinForce] Kaifuku Jutsushi 01</code>, суффикс <code>[Beloved]</code>.</p>
+        </div>
+    </details>
+
+    <h2>Имена дорожек</h2>
+    <ul>
+        <li><strong>Аудио:</strong> всегда <code>Rus</code> (или <code>Rus [суффикс]</code>)</li>
+        <li><strong>Надписи:</strong> всегда <code>Надписи</code></li>
+        <li><strong>Полные субтитры:</strong> из поля «Имя дорожки» (по умолчанию <code>Rus</code>)</li>
+    </ul>
+
+    <h2>Типичные проблемы</h2>
+
+    <div class="error">
+        <strong>«Группы не найдены»</strong> — проверьте, что имена файлов совпадают до скобок.
+    </div>
+
+    <div class="error">
+        <strong>«mkvmerge не найден»</strong> — проверьте путь в поле «Путь к mkvmerge».
+    </div>
+
+    <div class="error">
+        <strong>Ошибки при запуске CMD</strong> — откройте <code>hta_debug_log.txt</code> и проверьте сгенерированные команды.
+    </div>
+
+    <details>
+        <summary>Подробная диагностика</summary>
+        <div class="spoiler-content">
+            <p>В папке вывода создаются два лога:</p>
+            <ul>
+                <li><code>remux_log.txt</code> — статус обработки каждого файла ([OK]/[ERROR])</li>
+                <li><code>hta_debug_log.txt</code> — все сгенерированные команды mkvmerge</li>
+            </ul>
+            <p>Если что-то пошло не так — откройте <code>hta_debug_log.txt</code> и посмотрите, какие команды были сгенерированы. Обычно проблема видна сразу.</p>
+        </div>
+    </details>
+
+    <h2>Сохранение сессии</h2>
+    <p>Все пути сохраняются в реестр. При следующем запуске поля заполнятся автоматически.</p>
+    <div class="code-block">
+HKEY_CURRENT_USER\Software\MKVToolNixBatchRemuxer
+    </div>
+
+    <details>
+        <summary>Как очистить сохранённые пути</summary>
+        <div class="spoiler-content">
+            <p>Откройте <code>regedit</code>, найдите ключ <code>HKEY_CURRENT_USER\Software\MKVToolNixBatchRemuxer</code> и удалите его. Или вручную очистите поля в программе.</p>
+        </div>
+    </details>
+
+    <div class="success">
+        <strong>Готово!</strong> Теперь вы знаете всё необходимое для работы с программой.
+    </div>
+</div>
+</body>
+</html>
