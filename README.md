@@ -6,7 +6,6 @@
 <p align="center">
   <img src="https://github.com/user-attachments/assets/84ac5554-dd5d-4698-97b6-33e661e8bda5" width="500" alt="Скриншот интерфейса MKVToolNix Batch Remuxer">
 </p>
----
 
 ## ✨ Возможности
 
