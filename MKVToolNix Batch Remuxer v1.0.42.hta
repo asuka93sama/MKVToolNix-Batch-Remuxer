@@ -1,0 +1,1115 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=9">
+<meta charset="utf-8">
+<title>MKVToolNix Batch Remuxer v1.0.42</title>
+<HTA:APPLICATION 
+    ID="App" 
+    BORDER="thin" 
+    CAPTION="yes" 
+    SHOWINTASKBAR="yes" 
+    SINGLEINSTANCE="yes" 
+    SYSMENU="yes" 
+    SCROLL="no"/>
+<style>
+* { box-sizing: border-box; }
+html, body { width: 100%; height: 100%; margin: 0; padding: 0; }
+body {
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    background: #eef2f7;
+    color: #253247;
+    padding: 12px;
+    overflow: hidden;
+}
+.container {
+    width: 100%; height: 100%;
+    background: #ffffff;
+    border: 1px solid #dce3ed;
+    border-radius: 13px;
+    padding: 15px;
+    overflow: hidden;
+}
+h2 {
+    margin: 0 0 14px 0;
+    font-size: 19px;
+    line-height: 25px;
+    font-weight: 700;
+    color: #243b5a;
+    text-align: center;
+}
+.red-text { color: #d63031; }
+.row {
+    display: block;
+    width: 100%;
+    margin: 0 0 8px 0;
+    clear: both;
+}
+.row label {
+    display: block;
+    margin: 0 0 4px 1px;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 600;
+    color: #45556d;
+}
+.field-line {
+    display: block;
+    width: 100%;
+    height: 34px;
+    white-space: nowrap;
+    font-size: 0;
+}
+.row input[type="text"] {
+    display: inline-block;
+    vertical-align: top;
+    width: 80%;
+    height: 34px;
+    padding: 7px 9px;
+    margin: 0 1.5% 0 0;
+    border: 1px solid #d5deea;
+    border-radius: 7px;
+    background: #f9fbfe;
+    color: #26364d;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    font-size: 12px;
+    outline: none;
+}
+.row input[type="text"]:focus {
+    border-color: #6b9df7;
+    background: #ffffff;
+}
+.btn-browse {
+    display: inline-block;
+    vertical-align: top;
+    width: 18%;
+    height: 34px;
+    padding: 0 8px;
+    background: #3978e8;
+    color: #ffffff;
+    border: 1px solid #3978e8;
+    border-radius: 7px;
+    cursor: pointer;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.btn-browse:hover { background: #2866d2; }
+.name-line {
+    display: block;
+    width: 100%;
+    height: 34px;
+    white-space: nowrap;
+    font-size: 0;
+    margin-top: 4px;
+}
+.row input[type="text"].name-input {
+    display: inline-block;
+    vertical-align: top;
+    width: 80%;
+    height: 34px;
+    padding: 7px 9px;
+    margin: 0 1.5% 0 0;
+    border: 1px solid #d5deea;
+    border-radius: 7px;
+    background: #f9fbfe;
+    color: #26364d;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    font-size: 12px;
+    outline: none;
+}
+.row input[type="text"].name-input:focus {
+    border-color: #6b9df7;
+    background: #ffffff;
+}
+.name-label {
+    display: inline-block;
+    vertical-align: top;
+    width: 18%;
+    height: 34px;
+    line-height: 34px;
+    font-size: 11px;
+    color: #8895a7;
+    font-weight: 400;
+}
+.checkbox-row {
+    margin: 11px 0;
+    padding: 10px 12px;
+    min-height: 40px;
+    background: #f5f8fc;
+    border-radius: 8px;
+    border: 1px solid #e1e8f1;
+}
+.checkbox-row label {
+    font-size: 12px;
+    line-height: 18px;
+    color: #40516a;
+    cursor: pointer;
+}
+.checkbox-row input {
+    vertical-align: middle;
+    margin: 0 7px 0 0;
+}
+.buttons {
+    display: block;
+    width: 100%;
+    height: 42px;
+    margin: 0 0 8px 0;
+    white-space: nowrap;
+    font-size: 0;
+}
+button.action {
+    display: inline-block;
+    vertical-align: top;
+    width: 49%;
+    height: 42px;
+    padding: 0 6px;
+    white-space: nowrap;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    margin-right: 2%;
+}
+button.action:last-child { margin-right: 0; }
+.btn-check { background: #3978e8; }
+.btn-check:hover { background: #2866d2; }
+.btn-create { background: #279b63; }
+.btn-create:hover { background: #208454; }
+.btn-create:disabled {
+    background: #aab4c2;
+    cursor: not-allowed;
+}
+.secondary-buttons {
+    display: block;
+    width: 100%;
+    height: 40px;
+    margin: 0 0 11px 0;
+    white-space: nowrap;
+    font-size: 0;
+}
+button.secondary {
+    display: inline-block;
+    vertical-align: top;
+    width: 49%;
+    height: 40px;
+    padding: 0 6px;
+    white-space: nowrap;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    margin-right: 2%;
+}
+button.secondary:last-child { margin-right: 0; }
+.btn-update { background: #f1c40f; color: #333; }
+.btn-update:hover { background: #e0b100; }
+.btn-update.checked { background: #279b63; color: #fff; }
+.btn-update.checked:hover { background: #208454; }
+.btn-update:disabled {
+    background: #d4d4d4;
+    color: #888;
+    cursor: not-allowed;
+}
+.btn-run-cmd { background: #aab4c2; color: #fff; }
+.btn-run-cmd:hover { background: #95a0ae; }
+.btn-run-cmd.active { background: #279b63; }
+.btn-run-cmd.active:hover { background: #208454; }
+.btn-run-cmd:disabled {
+    background: #aab4c2;
+    cursor: not-allowed;
+}
+textarea {
+    display: block;
+    width: 100%;
+    height: 185px;
+    padding: 10px 11px;
+    border: 1px solid #d9e1eb;
+    border-radius: 9px;
+    resize: none;
+    margin: 0 0 9px 0;
+    background: #fbfcfe;
+    color: #33445c;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 11px;
+    line-height: 16px;
+    overflow: auto;
+}
+.status {
+    min-height: 35px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 18px;
+    display: none;
+}
+.status.info {
+    background: #edf5ff;
+    color: #285b9e;
+    border: 1px solid #d7e8ff;
+    display: block;
+}
+.status.success {
+    background: #eaf7ef;
+    color: #247044;
+    border: 1px solid #d1eddb;
+    display: block;
+}
+.status.error {
+    background: #fff0f0;
+    color: #a43b3b;
+    border: 1px solid #f5d6d6;
+    display: block;
+}
+</style>
+<script language="VBScript">
+Dim fso, shell, videoDict, audioDict, subDict, fullSubDict, fontDict, groupedFiles
+Dim regKey, htaPath, logPath, outputFolder, APP_VERSION, cmdCreated
+Const enableDetailedLog = True
+Const UPDATE_CHECK_INTERVAL_DAYS = 7
+APP_VERSION = "1.0.42"
+cmdCreated = False
+
+Sub InitLog()
+    htaPath = document.location.pathname
+    If Left(htaPath, 1) = "/" Then htaPath = Mid(htaPath, 2)
+    htaPath = Replace(htaPath, "/", "\")
+    htaPath = URLDecode(htaPath)
+    logPath = fso.GetParentFolderName(htaPath) & "\mkv_remuxer_debug.log"
+    Dim stream
+    Set stream = CreateObject("ADODB.Stream")
+    stream.Type = 2
+    stream.Charset = "utf-8"
+    stream.Open
+    stream.WriteText "=== MKV Remuxer Debug Log ===" & vbCrLf
+    stream.WriteText "Started: " & Now & vbCrLf
+    stream.WriteText "HTA Path: " & htaPath & vbCrLf
+    stream.WriteText "Version: " & APP_VERSION & vbCrLf & vbCrLf
+    stream.SaveToFile logPath, 2
+    stream.Close
+    Log "=== NEW SESSION ==="
+End Sub
+
+Sub Log(msg)
+    On Error Resume Next
+    If logPath <> "" Then
+        Dim stream, content, timestamp
+        timestamp = "[" & Hour(Now) & ":" & Minute(Now) & ":" & Second(Now) & "]"
+        Set stream = CreateObject("ADODB.Stream")
+        stream.Type = 2
+        stream.Charset = "utf-8"
+        stream.Open
+        If fso.FileExists(logPath) Then
+            stream.LoadFromFile logPath
+            content = stream.ReadText
+            stream.Close
+            stream.Open
+        Else
+            content = ""
+        End If
+        content = content & timestamp & " " & msg & vbCrLf
+        stream.WriteText content
+        stream.SaveToFile logPath, 2
+        stream.Close
+    End If
+    On Error GoTo 0
+End Sub
+
+Function URLDecode(str)
+    Dim i, result, ch
+    result = ""
+    For i = 1 To Len(str)
+        ch = Mid(str, i, 1)
+        If ch = "%" And i + 2 <= Len(str) Then
+            result = result & Chr(CInt("&H" & Mid(str, i+1, 2)))
+            i = i + 2
+        Else
+            result = result & ch
+        End If
+    Next
+    URLDecode = result
+End Function
+
+Function GetGroupKey(baseName)
+    Dim pos, key
+    pos = InStr(baseName, "(")
+    If pos > 0 Then
+        key = Trim(Left(baseName, pos - 1))
+    Else
+        pos = InStr(baseName, ".")
+        If pos > 0 Then
+            key = Trim(Left(baseName, pos - 1))
+        Else
+            key = Trim(baseName)
+        End If
+    End If
+    Do While InStr(key, "  ") > 0
+        key = Replace(key, "  ", " ")
+    Loop
+    GetGroupKey = key
+    If enableDetailedLog Then Log "GetGroupKey: '" & baseName & "' -> '" & key & "'"
+End Function
+
+Function GetAudioSuffix(groupKey, audioBaseName)
+    Dim suffix
+    If Len(audioBaseName) > Len(groupKey) Then
+        suffix = Mid(audioBaseName, Len(groupKey) + 1)
+        Do While Left(suffix, 1) = "." Or Left(suffix, 1) = " "
+            suffix = Mid(suffix, 2)
+        Loop
+        GetAudioSuffix = suffix
+    Else
+        GetAudioSuffix = ""
+    End If
+End Function
+
+Sub AssignEvents()
+    On Error Resume Next
+    document.getElementById("btnVideo").onclick = GetRef("BrowseVideo")
+    document.getElementById("btnAudio").onclick = GetRef("BrowseAudio")
+    document.getElementById("btnSub").onclick = GetRef("BrowseSub")
+    document.getElementById("btnFullSub").onclick = GetRef("BrowseFullSub")
+    document.getElementById("btnFont").onclick = GetRef("BrowseFont")
+    document.getElementById("btnOutput").onclick = GetRef("BrowseOutput")
+    document.getElementById("btnMkv").onclick = GetRef("BrowseMkv")
+    document.getElementById("btnCheck").onclick = GetRef("CheckFiles")
+    document.getElementById("btnCreate").onclick = GetRef("CreateCMD")
+    document.getElementById("btnUpdate").onclick = GetRef("CheckUpdates")
+    document.getElementById("btnRunCmd").onclick = GetRef("RunCMD")
+    document.getElementById("videoFolder").onblur = GetRef("SaveSession")
+    document.getElementById("audioFolder").onblur = GetRef("SaveSession")
+    document.getElementById("subFolder").onblur = GetRef("SaveSession")
+    document.getElementById("fullSubFolder").onblur = GetRef("SaveSession")
+    document.getElementById("fullSubName").onblur = GetRef("SaveSession")
+    document.getElementById("fontFolder").onblur = GetRef("SaveSession")
+    document.getElementById("outputFolder").onblur = GetRef("SaveSession")
+    document.getElementById("mkvmergePath").onblur = GetRef("SaveSession")
+    On Error GoTo 0
+End Sub
+
+Sub Window_OnLoad
+    On Error Resume Next
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    Set shell = CreateObject("WScript.Shell")
+    
+    window.resizeTo 780, 1045
+    
+    Dim screenWidth, screenHeight
+    screenWidth = document.parentWindow.screen.availWidth
+    screenHeight = document.parentWindow.screen.availHeight
+    window.moveTo (screenWidth - 780) / 2, (screenHeight - 1045) / 2
+    
+    Set videoDict = CreateObject("Scripting.Dictionary")
+    Set audioDict = CreateObject("Scripting.Dictionary")
+    Set subDict = CreateObject("Scripting.Dictionary")
+    Set fullSubDict = CreateObject("Scripting.Dictionary")
+    Set fontDict = CreateObject("Scripting.Dictionary")
+    Set groupedFiles = CreateObject("Scripting.Dictionary")
+    
+    regKey = "HKEY_CURRENT_USER\Software\MKVToolNixBatchRemuxer"
+    
+    InitLog
+    Log "Window_OnLoad started"
+    
+    LoadSession
+    AssignEvents
+    
+    cmdCreated = False
+    
+    ' Проверяем, нужно ли автоматически проверить обновления
+    CheckAutoUpdate
+    
+    Log "Window_OnLoad completed"
+    ShowStatus "Выберите папки и нажмите 'Проверить'", "info"
+    On Error GoTo 0
+End Sub
+
+' === АВТОМАТИЧЕСКАЯ ПРОВЕРКА ОБНОВЛЕНИЙ ПРИ ЗАПУСКЕ ===
+Sub CheckAutoUpdate()
+    Dim lastCheck, currentTime, daysSinceCheck
+    On Error Resume Next
+    lastCheck = shell.RegRead(regKey & "\LastUpdateCheck")
+    On Error GoTo 0
+    
+    If IsNumeric(lastCheck) And lastCheck <> "" Then
+        currentTime = DateDiff("s", "01/01/1970 00:00:00", Now())
+        daysSinceCheck = (currentTime - CLng(lastCheck)) / 86400
+        
+        Log "Last update check: " & lastCheck & " (" & Int(daysSinceCheck) & " days ago)"
+        
+        If daysSinceCheck < UPDATE_CHECK_INTERVAL_DAYS Then
+            ' Неделю ещё не прошло — показываем последний результат
+            Dim lastResult
+            On Error Resume Next
+            lastResult = shell.RegRead(regKey & "\LastUpdateResult")
+            On Error GoTo 0
+            
+            If lastResult <> "" Then
+                document.getElementById("resultArea").value = lastResult
+                ' Кнопка зелёная — проверка уже была
+                document.getElementById("btnUpdate").className = "secondary btn-update checked"
+                document.getElementById("btnUpdate").innerHTML = "Проверено (актуально)"
+                Log "Using cached update result"
+            End If
+            Exit Sub
+        End If
+    Else
+        Log "No previous update check recorded"
+    End If
+    
+    ' Прошло больше недели (или первая проверка) — запускаем проверку
+    Log "Auto-checking for updates (interval expired)"
+    window.setTimeout "CheckUpdates", 500, "VBScript"
+End Sub
+
+Sub RunCMD()
+    If Not cmdCreated Then
+        ShowStatus "Сначала создайте CMD!", "error"
+        Exit Sub
+    End If
+    
+    Dim outFolder, cmdPath
+    outFolder = document.getElementById("outputFolder").value
+    cmdPath = outFolder & "\remux.cmd"
+    
+    If Not fso.FileExists(cmdPath) Then
+        ShowStatus "Файл remux.cmd не найден в папке вывода!", "error"
+        Exit Sub
+    End If
+    
+    Log "RunCMD: запускаем " & cmdPath
+    shell.Run "cmd.exe /c """ & cmdPath & """", 1, False
+    ShowStatus "CMD запущен!", "success"
+End Sub
+
+Sub CheckUpdates()
+    Log "=== CheckUpdates STARTED ==="
+    document.getElementById("btnUpdate").disabled = True
+    document.getElementById("btnUpdate").innerHTML = "Проверка..."
+    
+    Dim resultText
+    resultText = "Проверка обновлений..." & vbCrLf & vbCrLf
+    
+    Dim currentVersion
+    currentVersion = APP_VERSION
+    resultText = resultText & "Текущая версия: v" & currentVersion & vbCrLf
+    
+    Dim http, json, latestVersion, latestFile
+    Set http = CreateObject("WinHttp.WinHttpRequest.5.1")
+    
+    On Error Resume Next
+    http.setTimeouts 5000, 5000, 5000, 10000
+    http.Open "GET", "https://api.github.com/repos/asuka93sama/MKVToolNix-Batch-Remuxer/contents/", False
+    http.SetRequestHeader "User-Agent", "MKVToolNix-Batch-Remuxer"
+    http.SetRequestHeader "Accept", "application/vnd.github.v3+json"
+    http.Send
+    
+    If Err.Number <> 0 Then
+        resultText = resultText & vbCrLf & "[ОШИБКА] Не удалось подключиться к GitHub:" & vbCrLf & Err.Description
+        document.getElementById("resultArea").value = resultText
+        ShowStatus "Ошибка сети", "error"
+        document.getElementById("btnUpdate").disabled = False
+        document.getElementById("btnUpdate").innerHTML = "Проверить обновления"
+        Err.Clear
+        On Error GoTo 0
+        Exit Sub
+    End If
+    On Error GoTo 0
+    
+    If http.Status <> 200 Then
+        resultText = resultText & vbCrLf & "[ОШИБКА] GitHub вернул код: " & http.Status
+        document.getElementById("resultArea").value = resultText
+        ShowStatus "Ошибка GitHub", "error"
+        document.getElementById("btnUpdate").disabled = False
+        document.getElementById("btnUpdate").innerHTML = "Проверить обновления"
+        Exit Sub
+    End If
+    
+    json = http.ResponseText
+    
+    Dim regex, matches, match
+    Set regex = New RegExp
+    regex.Pattern = "MKVToolNix Batch Remuxer v([0-9]+\.[0-9]+\.[0-9]+)\.hta"
+    regex.Global = True
+    regex.IgnoreCase = True
+    
+    Set matches = regex.Execute(json)
+    
+    latestVersion = "0.0.0"
+    latestFile = ""
+    
+    For Each match In matches
+        Dim ver
+        ver = match.SubMatches(0)
+        If CompareVersions(ver, latestVersion) > 0 Then
+            latestVersion = ver
+            latestFile = "MKVToolNix Batch Remuxer v" & ver & ".hta"
+        End If
+    Next
+    
+    If latestVersion = "0.0.0" Then
+        resultText = resultText & vbCrLf & "[ОШИБКА] Не удалось найти версию на GitHub"
+        document.getElementById("resultArea").value = resultText
+        ShowStatus "Ошибка parsing", "error"
+        document.getElementById("btnUpdate").disabled = False
+        document.getElementById("btnUpdate").innerHTML = "Проверить обновления"
+        Exit Sub
+    End If
+    
+    resultText = resultText & "Последняя версия: v" & latestVersion & vbCrLf
+    
+    ' Сохраняем время проверки и результат в реестр
+    Dim currentTime
+    currentTime = DateDiff("s", "01/01/1970 00:00:00", Now())
+    On Error Resume Next
+    shell.RegWrite regKey & "\LastUpdateCheck", currentTime, "REG_SZ"
+    shell.RegWrite regKey & "\LastUpdateResult", resultText, "REG_SZ"
+    On Error GoTo 0
+    Log "Saved update check time to registry: " & currentTime
+    
+    If CompareVersions(latestVersion, currentVersion) <= 0 Then
+        resultText = resultText & vbCrLf & "[OK] У вас установлена последняя версия!"
+        document.getElementById("resultArea").value = resultText
+        ShowStatus "Обновлений нет", "success"
+        ' Кнопка становится зелёной
+        document.getElementById("btnUpdate").disabled = False
+        document.getElementById("btnUpdate").className = "secondary btn-update checked"
+        document.getElementById("btnUpdate").innerHTML = "Проверено (актуально)"
+        Exit Sub
+    End If
+    
+    resultText = resultText & vbCrLf & "Доступно обновление: v" & currentVersion & " -> v" & latestVersion
+    resultText = resultText & vbCrLf & vbCrLf & "Начинаю загрузку..."
+    document.getElementById("resultArea").value = resultText
+    
+    Dim tempDir, downloadPath, extractPath
+    tempDir = shell.ExpandEnvironmentStrings("%TEMP%") & "\MKVRemuxer_Update"
+    downloadPath = tempDir & "\update.zip"
+    extractPath = tempDir & "\extract"
+    
+    On Error Resume Next
+    If fso.FolderExists(tempDir) Then fso.DeleteFolder tempDir, True
+    fso.CreateFolder tempDir
+    On Error GoTo 0
+    
+    resultText = resultText & vbCrLf & "Скачивание..."
+    document.getElementById("resultArea").value = resultText
+    
+    Dim psCmd
+    psCmd = "powershell -NoProfile -Command ""$ProgressPreference = 'SilentlyContinue'; [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -Uri 'https://github.com/asuka93sama/MKVToolNix-Batch-Remuxer/archive/refs/heads/main.zip' -OutFile '" & Replace(downloadPath, "\", "\\") & "'"""
+    
+    shell.Run psCmd, 0, True
+    
+    If Not fso.FileExists(downloadPath) Then
+        resultText = resultText & vbCrLf & "[ОШИБКА] Не удалось скачать архив"
+        document.getElementById("resultArea").value = resultText
+        ShowStatus "Ошибка загрузки", "error"
+        document.getElementById("btnUpdate").disabled = False
+        document.getElementById("btnUpdate").innerHTML = "Проверить обновления"
+        Exit Sub
+    End If
+    
+    resultText = resultText & vbCrLf & "Распаковка..."
+    document.getElementById("resultArea").value = resultText
+    
+    psCmd = "powershell -NoProfile -Command ""Expand-Archive -Path '" & Replace(downloadPath, "\", "\\") & "' -DestinationPath '" & Replace(extractPath, "\", "\\") & "' -Force"""
+    shell.Run psCmd, 0, True
+    
+    Dim extractedFolder, newHtaPath
+    extractedFolder = ""
+    For Each folder In fso.GetFolder(extractPath).SubFolders
+        extractedFolder = folder.Path
+        Exit For
+    Next
+    
+    If extractedFolder = "" Then
+        resultText = resultText & vbCrLf & "[ОШИБКА] Не найдена распакованная папка"
+        document.getElementById("resultArea").value = resultText
+        ShowStatus "Ошибка распаковки", "error"
+        document.getElementById("btnUpdate").disabled = False
+        document.getElementById("btnUpdate").innerHTML = "Проверить обновления"
+        Exit Sub
+    End If
+    
+    newHtaPath = extractedFolder & "\" & latestFile
+    If Not fso.FileExists(newHtaPath) Then
+        resultText = resultText & vbCrLf & "[ОШИБКА] Не найден файл: " & latestFile
+        document.getElementById("resultArea").value = resultText
+        ShowStatus "Файл не найден", "error"
+        document.getElementById("btnUpdate").disabled = False
+        document.getElementById("btnUpdate").innerHTML = "Проверить обновления"
+        Exit Sub
+    End If
+    
+    resultText = resultText & vbCrLf & "Создание резервной копии..."
+    document.getElementById("resultArea").value = resultText
+    
+    Dim backupFolder, currentHta
+    backupFolder = htaPath & "\..\backup"
+    If Not fso.FolderExists(backupFolder) Then fso.CreateFolder backupFolder
+    
+    currentHta = fso.GetFileName(htaPath)
+    On Error Resume Next
+    fso.CopyFile htaPath, backupFolder & "\" & currentHta, True
+    On Error GoTo 0
+    
+    resultText = resultText & vbCrLf & "Установка новой версии..."
+    document.getElementById("resultArea").value = resultText
+    
+    fso.CopyFile newHtaPath, htaPath & "\..\", True
+    
+    Dim folder, file
+    For Each file In fso.GetFolder(htaPath & "\..").Files
+        If LCase(fso.GetExtensionName(file.Name)) = "hta" Then
+            If LCase(file.Name) <> LCase(latestFile) Then
+                On Error Resume Next
+                file.Delete
+                On Error GoTo 0
+            End If
+        End If
+    Next
+    
+    On Error Resume Next
+    fso.DeleteFolder tempDir, True
+    On Error GoTo 0
+    
+    resultText = resultText & vbCrLf & vbCrLf & "[OK] Обновление успешно установлено!"
+    resultText = resultText & vbCrLf & "v" & currentVersion & " -> v" & latestVersion
+    resultText = resultText & vbCrLf & vbCrLf & "Перезапуск программы..."
+    document.getElementById("resultArea").value = resultText
+    
+    ShowStatus "Обновление успешно!", "success"
+    
+    Log "Update completed: " & currentVersion & " -> " & latestVersion
+    window.setTimeout "RestartApp", 1500, "VBScript"
+End Sub
+
+Sub RestartApp()
+    shell.Run """" & htaPath & "\..\" & fso.GetFileName(htaPath) & """", 1, False
+    window.Close
+End Sub
+
+Function CompareVersions(v1, v2)
+    Dim a1, a2, i, n1, n2
+    a1 = Split(v1, ".")
+    a2 = Split(v2, ".")
+    
+    For i = 0 To 2
+        n1 = 0 : n2 = 0
+        If i <= UBound(a1) Then n1 = CLng(a1(i))
+        If i <= UBound(a2) Then n2 = CLng(a2(i))
+        
+        If n1 > n2 Then
+            CompareVersions = 1
+            Exit Function
+        ElseIf n1 < n2 Then
+            CompareVersions = -1
+            Exit Function
+        End If
+    Next
+    CompareVersions = 0
+End Function
+
+Sub BrowseVideo()
+    BrowseFolder "videoFolder"
+End Sub
+Sub BrowseAudio()
+    BrowseFolder "audioFolder"
+End Sub
+Sub BrowseSub()
+    BrowseFolder "subFolder"
+End Sub
+Sub BrowseFullSub()
+    BrowseFolder "fullSubFolder"
+End Sub
+Sub BrowseFont()
+    BrowseFolder "fontFolder"
+End Sub
+Sub BrowseOutput()
+    BrowseFolder "outputFolder"
+End Sub
+Sub BrowseMkv()
+    BrowseFile "mkvmergePath"
+End Sub
+
+Sub SaveSession
+    On Error Resume Next
+    shell.RegWrite regKey & "\VideoFolder", document.getElementById("videoFolder").value, "REG_SZ"
+    shell.RegWrite regKey & "\AudioFolder", document.getElementById("audioFolder").value, "REG_SZ"
+    shell.RegWrite regKey & "\SubFolder", document.getElementById("subFolder").value, "REG_SZ"
+    shell.RegWrite regKey & "\FullSubFolder", document.getElementById("fullSubFolder").value, "REG_SZ"
+    shell.RegWrite regKey & "\FullSubName", document.getElementById("fullSubName").value, "REG_SZ"
+    shell.RegWrite regKey & "\OutputFolder", document.getElementById("outputFolder").value, "REG_SZ"
+    shell.RegWrite regKey & "\MkvPath", document.getElementById("mkvmergePath").value, "REG_SZ"
+    shell.RegWrite regKey & "\FontFolder", document.getElementById("fontFolder").value, "REG_SZ"
+    On Error GoTo 0
+End Sub
+
+Sub LoadSession
+    On Error Resume Next
+    Dim val
+    val = shell.RegRead(regKey & "\VideoFolder")
+    If Err.Number = 0 Then document.getElementById("videoFolder").value = val
+    Err.Clear
+    val = shell.RegRead(regKey & "\AudioFolder")
+    If Err.Number = 0 Then document.getElementById("audioFolder").value = val
+    Err.Clear
+    val = shell.RegRead(regKey & "\SubFolder")
+    If Err.Number = 0 Then document.getElementById("subFolder").value = val
+    Err.Clear
+    val = shell.RegRead(regKey & "\FullSubFolder")
+    If Err.Number = 0 Then document.getElementById("fullSubFolder").value = val
+    Err.Clear
+    val = shell.RegRead(regKey & "\FullSubName")
+    If Err.Number = 0 Then document.getElementById("fullSubName").value = val
+    Err.Clear
+    val = shell.RegRead(regKey & "\OutputFolder")
+    If Err.Number = 0 Then document.getElementById("outputFolder").value = val
+    Err.Clear
+    val = shell.RegRead(regKey & "\MkvPath")
+    If Err.Number = 0 Then 
+        document.getElementById("mkvmergePath").value = val
+    Else
+        document.getElementById("mkvmergePath").value = "C:\Program Files\MKVToolNix\mkvmerge.exe"
+    End If
+    Err.Clear
+    val = shell.RegRead(regKey & "\FontFolder")
+    If Err.Number = 0 Then document.getElementById("fontFolder").value = val
+    Err.Clear
+    On Error GoTo 0
+End Sub
+
+Sub BrowseFolder(inputId)
+    Dim shellApp, folder
+    Set shellApp = CreateObject("Shell.Application")
+    Set folder = shellApp.BrowseForFolder(0, "Выберите папку", 0)
+    If Not folder Is Nothing Then
+        document.getElementById(inputId).value = folder.Self.Path
+        SaveSession
+    End If
+End Sub
+
+Sub BrowseFile(inputId)
+    Dim cmd, tempFile, stream, result
+    tempFile = fso.GetSpecialFolder(2) & "\file_dialog.txt"
+    cmd = "mshta ""javascript:var input=document.createElement('input');input.type='file';input.click();new ActiveXObject('Scripting.FileSystemObject').OpenTextFile('" & Replace(tempFile, "\", "\\") & "',2,true).Write(input.value);close();"""
+    shell.Run cmd, 0, True
+    If fso.FileExists(tempFile) Then
+        Set stream = CreateObject("ADODB.Stream")
+        stream.Type = 2
+        stream.Charset = "utf-8"
+        stream.Open
+        stream.LoadFromFile tempFile
+        result = Trim(stream.ReadText)
+        stream.Close
+        fso.DeleteFile tempFile
+        If result <> "" Then 
+            document.getElementById(inputId).value = result
+            SaveSession
+        End If
+    End If
+End Sub
+
+Function GetFilesDict(folderPath, extensions)
+    Dim dict, f, ext, baseName, key, fileCount
+    Set dict = CreateObject("Scripting.Dictionary")
+    fileCount = 0
+    If folderPath = "" Then 
+        Set GetFilesDict = dict
+        Exit Function
+    End If
+    If Not fso.FolderExists(folderPath) Then 
+        Set GetFilesDict = dict
+        Exit Function
+    End If
+    For Each f In fso.GetFolder(folderPath).Files
+        ext = LCase(fso.GetExtensionName(f.Name))
+        If InStr(extensions, ext) > 0 Then
+            baseName = fso.GetBaseName(f.Name)
+            key = GetGroupKey(baseName)
+            If Not dict.Exists(key) Then
+                dict.Add key, f.Path
+                fileCount = fileCount + 1
+                If enableDetailedLog Then Log "  Added: " & baseName & " -> " & key
+            End If
+        End If
+    Next
+    If enableDetailedLog Then Log "Total files found: " & fileCount
+    Set GetFilesDict = dict
+End Function
+
+Function GetFontsList(folderPath)
+    Dim fonts, f, ext, fontList, fontCount
+    fontList = ""
+    fontCount = 0
+    If folderPath = "" Or Not fso.FolderExists(folderPath) Then 
+        GetFontsList = ""
+        Exit Function
+    End If
+    Set fonts = CreateObject("Scripting.Dictionary")
+    For Each f In fso.GetFolder(folderPath).Files
+        ext = LCase(fso.GetExtensionName(f.Name))
+        If InStr("ttf,otf,woff,woff2", ext) > 0 Then
+            If Not fonts.Exists(f.Path) Then
+                fonts.Add f.Path, True
+                fontCount = fontCount + 1
+                If fontList <> "" Then fontList = fontList & "|"
+                fontList = fontList & f.Path
+            End If
+        End If
+    Next
+    GetFontsList = fontList
+End Function
+
+Sub CheckFiles
+    Dim vPath, aPath, sPath, fsPath, fPath, outPath
+    vPath = document.getElementById("videoFolder").value
+    aPath = document.getElementById("audioFolder").value
+    sPath = document.getElementById("subFolder").value
+    fsPath = document.getElementById("fullSubFolder").value
+    fPath = document.getElementById("fontFolder").value
+    outPath = document.getElementById("outputFolder").value
+    outputFolder = outPath
+    Dim mkvPath
+    mkvPath = document.getElementById("mkvmergePath").value
+    If vPath = "" Or aPath = "" Or outPath = "" Or mkvPath = "" Then
+        ShowStatus "Ошибка: Заполните обязательные поля (видео, аудио, вывод, mkvmerge)!", "error"
+        Exit Sub
+    End If
+    If Not fso.FolderExists(outPath) Then
+        Dim answer
+        answer = MsgBox("Папка вывода не существует:" & vbCrLf & vbCrLf & outPath & vbCrLf & vbCrLf & "Создать её?", 4 + 32, "Папка не найдена")
+        If answer = 6 Then
+            On Error Resume Next
+            fso.CreateFolder outPath
+            If Err.Number <> 0 Then
+                ShowStatus "Ошибка создания папки: " & Err.Description, "error"
+                Err.Clear
+                On Error GoTo 0
+                Exit Sub
+            End If
+            On Error GoTo 0
+            ShowStatus "Папка создана: " & outPath, "info"
+        Else
+            ShowStatus "Укажите существующую папку вывода", "error"
+            Exit Sub
+        End If
+    End If
+    cmdCreated = False
+    document.getElementById("btnRunCmd").disabled = True
+    document.getElementById("btnRunCmd").className = "secondary btn-run-cmd"
+    ShowStatus "Сканирование...", "info"
+    window.setTimeout "DoCheck", 50, "VBScript"
+End Sub
+
+Sub DoCheck
+    Dim vExt, aExt, sExt, fontList
+    vExt = "mkv,mp4,avi,mov,ts,m2ts"
+    aExt = "m4a,mp3,flac,wav,ac3,dts,aac,ogg,mka"
+    sExt = "srt,ass,ssa,sub"
+    Set videoDict = GetFilesDict(document.getElementById("videoFolder").value, vExt)
+    Set audioDict = GetFilesDict(document.getElementById("audioFolder").value, aExt)
+    Set subDict = GetFilesDict(document.getElementById("subFolder").value, sExt)
+    Set fullSubDict = GetFilesDict(document.getElementById("fullSubFolder").value, sExt)
+    fontList = GetFontsList(document.getElementById("fontFolder").value)
+    Set groupedFiles = CreateObject("Scripting.Dictionary")
+    Dim key, resultText, count, fontInfo
+    resultText = ""
+    count = 0
+    If fontList <> "" Then
+        fontInfo = "Шрифты: " & (UBound(Split(fontList, "|")) + 1) & " файлов" & vbCrLf & vbCrLf
+    Else
+        fontInfo = "Шрифты не добавлены (не обязательно)" & vbCrLf & vbCrLf
+    End If
+    For Each key In videoDict.Keys
+        If audioDict.Exists(key) Then
+            Dim hasSub, hasFullSub, subInfo
+            Dim audioPath, audioBaseName, audioSuffix
+            Dim videoBaseName
+            hasSub = subDict.Exists(key)
+            hasFullSub = fullSubDict.Exists(key)
+            audioPath = audioDict(key)
+            audioBaseName = fso.GetBaseName(audioPath)
+            audioSuffix = GetAudioSuffix(key, audioBaseName)
+            videoBaseName = fso.GetBaseName(videoDict(key))
+            groupedFiles.Add key, Array(videoDict(key), videoBaseName, audioPath, audioSuffix, IIf(hasSub, subDict(key), ""), IIf(hasFullSub, fullSubDict(key), ""), fontList)
+            subInfo = ""
+            If hasSub And hasFullSub Then
+                subInfo = "С: надписи + полные" & vbCrLf
+            ElseIf hasSub Then
+                subInfo = "С: надписи" & vbCrLf
+            ElseIf hasFullSub Then
+                subInfo = "С: полные" & vbCrLf
+            Else
+                subInfo = "С: нет (опционально)" & vbCrLf
+            End If
+            Dim audioInfo
+            If audioSuffix <> "" Then
+                audioInfo = "   А: " & audioPath & " [" & audioSuffix & "]" & vbCrLf
+            Else
+                audioInfo = "   А: " & audioPath & vbCrLf
+            End If
+            resultText = resultText & "[OK] " & key & vbCrLf
+            resultText = resultText & "   В: " & videoDict(key) & vbCrLf
+            resultText = resultText & audioInfo
+            resultText = resultText & subInfo
+            If fontList <> "" Then resultText = resultText & "   F: " & fontList & vbCrLf
+            resultText = resultText & vbCrLf
+            count = count + 1
+        Else
+            resultText = resultText & "[!] " & key & " (нет аудио — пропущено)" & vbCrLf & vbCrLf
+        End If
+    Next
+    document.getElementById("resultArea").value = fontInfo & resultText
+    If count = 0 Then
+        ShowStatus "Группы не найдены! Проверьте, что имена файлов совпадают.", "error"
+        document.getElementById("btnCreate").disabled = True
+    Else
+        ShowStatus "Найдено: " & count & ". Можно создавать CMD.", "success"
+        document.getElementById("btnCreate").disabled = False
+    End If
+End Sub
+
+Function IIf(condition, truePart, falsePart)
+    If condition Then
+        IIf = truePart
+    Else
+        IIf = falsePart
+    End If
+End Function
+
+Sub CreateCMD
+    If groupedFiles.Count = 0 Then
+        ShowStatus "Сначала проверьте!", "error"
+        Exit Sub
+    End If
+    Dim outFolder, mkvPath
+    outFolder = document.getElementById("outputFolder").value
+    mkvPath = document.getElementById("mkvmergePath").value
+    If Not fso.FileExists(mkvPath) Then
+        ShowStatus "mkvmerge не найден!", "error"
+        Exit Sub
+    End If
+    ShowStatus "Генерация...", "info"
+    window.setTimeout "DoCreateCMD", 50, "VBScript"
+End Sub
+
+Sub DoCreateCMD
+    Dim outFolder, mkvPath, keepAudio, cmdContent, key, paths
+    Dim vPath, videoBaseName, aPath, audioSuffix, sPath, fsPath, fontList, outPath, mkvCmd
+    Dim fontArr, i, fullSubName, audioTrackName
+    outFolder = document.getElementById("outputFolder").value
+    mkvPath = document.getElementById("mkvmergePath").value
+    keepAudio = document.getElementById("chkKeepAudio").checked
+    fullSubName = Trim(document.getElementById("fullSubName").value)
+    If fullSubName = "" Then
+        fullSubName = "Rus"
+    End If
+    cmdContent = "@echo off" & vbCrLf
+    cmdContent = cmdContent & "chcp 65001 >nul" & vbCrLf & vbCrLf
+    cmdContent = cmdContent & "set MKVMERGE=""" & mkvPath & """" & vbCrLf & vbCrLf
+    For Each key In groupedFiles.Keys
+        paths = groupedFiles(key)
+        vPath = paths(0)
+        videoBaseName = paths(1)
+        aPath = paths(2)
+        audioSuffix = paths(3)
+        sPath = paths(4)
+        fsPath = paths(5)
+        fontList = paths(6)
+        outPath = outFolder & "\" & videoBaseName & ".mkv"
+        If keepAudio Then
+            mkvCmd = "%MKVMERGE% -o """ & outPath & """ """ & vPath & """ "
+        Else
+            mkvCmd = "%MKVMERGE% -o """ & outPath & """ --no-audio --no-subtitles """ & vPath & """ "
+        End If
+        If audioSuffix <> "" Then
+            audioTrackName = "Rus " & audioSuffix
+        Else
+            audioTrackName = "Rus"
+        End If
+        mkvCmd = mkvCmd & "--default-track 0:yes --track-name 0:""" & audioTrackName & """ """ & aPath & """ "
+        If sPath <> "" And fsPath <> "" Then
+            mkvCmd = mkvCmd & "--default-track 0:yes --track-name 0:""Надписи"" """ & sPath & """ "
+            mkvCmd = mkvCmd & "--default-track 0:no --track-name 0:""" & fullSubName & """ """ & fsPath & """ "
+        ElseIf sPath <> "" Then
+            mkvCmd = mkvCmd & "--default-track 0:yes --track-name 0:""Надписи"" """ & sPath & """ "
+        ElseIf fsPath <> "" Then
+            mkvCmd = mkvCmd & "--default-track 0:yes --track-name 0:""" & fullSubName & """ """ & fsPath & """ "
+        End If
+        If fontList <> "" Then
+            fontArr = Split(fontList, "|")
+            For i = 0 To UBound(fontArr)
+                mkvCmd = mkvCmd & "--attachment-mime-type application/x-truetype-font --attachment-name """ & fso.GetFileName(fontArr(i)) & """ --attach-file """ & fontArr(i) & """ "
+            Next
+        End If
+        cmdContent = cmdContent & "echo Processing: " & videoBaseName & vbCrLf
+        cmdContent = cmdContent & mkvCmd & vbCrLf
+        cmdContent = cmdContent & "echo." & vbCrLf
+    Next
+    cmdContent = cmdContent & "echo Done!" & vbCrLf
+    cmdContent = cmdContent & "pause"
+    SaveFileUTF8 outFolder & "\remux.cmd", cmdContent
+    
+    cmdCreated = True
+    document.getElementById("btnRunCmd").disabled = False
+    document.getElementById("btnRunCmd").className = "secondary btn-run-cmd active"
+    
+    ShowStatus "Готово! CMD создан. Можно запускать.", "success"
+End Sub
+
+Sub SaveFileUTF8(filePath, content)
+    Dim stream
+    Set stream = CreateObject("ADODB.Stream")
+    stream.Type = 2
+    stream.Charset = "utf-8"
+    stream.Open
+    stream.WriteText content
+    stream.SaveToFile filePath, 2
+    stream.Close
+    Set stream = Nothing
+End Sub
+
+Sub ShowStatus(text, cssClass)
+    Dim statusDiv
+    Set statusDiv = document.getElementById("statusDiv")
+    statusDiv.className = "status " & cssClass
+    statusDiv.innerText = text
+End Sub
+
+window.setTimeout "Window_OnLoad", 100, "VBScript"
+</script>
+</head>
+<body>
+<div class="container">
+    <h2>MKVToolNix Batch Remuxer <span class="red-text">Asuka93sama</span></h2>
+    <div class="row"><label>Папка с видео *</label><div class="field-line"><input type="text" id="videoFolder"><button class="btn-browse" id="btnVideo">Обзор</button></div></div>
+    <div class="row"><label>Папка с аудио *</label><div class="field-line"><input type="text" id="audioFolder"><button class="btn-browse" id="btnAudio">Обзор</button></div></div>
+    <div class="row"><label>Папка с субтитрами (надписи)</label><div class="field-line"><input type="text" id="subFolder"><button class="btn-browse" id="btnSub">Обзор</button></div></div>
+    <div class="row"><label>Папка с субтитрами (полные)</label><div class="field-line"><input type="text" id="fullSubFolder"><button class="btn-browse" id="btnFullSub">Обзор</button></div></div>
+    <div class="row"><label>Имя дорожки полных субтитров (пусто = "Rus")</label><div class="name-line"><input type="text" id="fullSubName" class="name-input" placeholder="Rus"><span class="name-label">Название дорожки</span></div></div>
+    <div class="row"><label>Папка со шрифтами</label><div class="field-line"><input type="text" id="fontFolder"><button class="btn-browse" id="btnFont">Обзор</button></div></div>
+    <div class="row"><label>Папка вывода *</label><div class="field-line"><input type="text" id="outputFolder"><button class="btn-browse" id="btnOutput">Обзор</button></div></div>
+    <div class="row"><label>Путь к mkvmerge *</label><div class="field-line"><input type="text" id="mkvmergePath"><button class="btn-browse" id="btnMkv">Обзор</button></div></div>
+    <div class="checkbox-row"><label><input type="checkbox" id="chkKeepAudio">Оставить аудио из видео (снять флаг "по умолчанию")</label></div>
+    <div class="buttons">
+        <button class="action btn-check" id="btnCheck">Проверить файлы</button>
+        <button class="action btn-create" id="btnCreate" disabled>Создать CMD</button>
+    </div>
+    <div class="secondary-buttons">
+        <button class="secondary btn-update" id="btnUpdate">Проверить обновления</button>
+        <button class="secondary btn-run-cmd" id="btnRunCmd" disabled>Запустить CMD</button>
+    </div>
+    <textarea id="resultArea" readonly placeholder="Результат проверки..."></textarea>
+    <div id="statusDiv" class="status"></div>
+</div>
+</body>
+</html>
