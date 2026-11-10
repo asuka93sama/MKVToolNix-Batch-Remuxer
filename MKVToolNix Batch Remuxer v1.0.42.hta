@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=9">
@@ -693,7 +693,42 @@ Sub CheckUpdates()
 End Sub
 
 Sub RestartApp()
-    shell.Run """" & htaPath & "\..\" & fso.GetFileName(htaPath) & """", 1, False
+    Dim htaFolder, shortcutPath, newHtaPath, file
+    
+    htaFolder = fso.GetParentFolderName(htaPath)
+    
+    ' Сначала запускаем Ярлык.cmd если есть
+    shortcutPath = htaFolder & "\Ярлык.cmd"
+    If fso.FileExists(shortcutPath) Then
+        Log "Запуск Ярлык.cmd: " & shortcutPath
+        shell.Run """" & shortcutPath & """", 1, False
+    Else
+        Log "Ярлык.cmd не найден"
+    End If
+    
+    ' Ищем новый HTA файл в папке
+    newHtaPath = ""
+    For Each file In fso.GetFolder(htaFolder).Files
+        If LCase(fso.GetExtensionName(file.Name)) = "hta" Then
+            If InStr(LCase(file.Name), "mkvtoolnix batch remuxer v") > 0 Then
+                newHtaPath = file.Path
+                Exit For
+            End If
+        End If
+    Next
+    
+    If newHtaPath <> "" Then
+        Log "Запуск новой версии: " & newHtaPath
+        shell.Run """" & newHtaPath & """", 1, False
+    Else
+        Log "[ОШИБКА] Новый HTA файл не найден в папке: " & htaFolder
+    End If
+    
+    ' Даём время на запуск перед закрытием
+    window.setTimeout "CloseWindow", 500, "VBScript"
+End Sub
+
+Sub CloseWindow()
     window.Close
 End Sub
 
